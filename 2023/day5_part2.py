@@ -1,5 +1,18 @@
 # In the inputfile, make sure that there are *no* \n at the end.
-def transform(range1, rule_in, rule_out):
+def apply_rules(trans_rules, ranges_to_trans):
+    new_ranges = []
+    for rule_in, rule_out in trans_rules.items():
+        untransformed = []
+        for range1 in ranges_to_trans:
+            after_trans, still_untrans = transform_range(range1, rule_in, rule_out)
+            new_ranges.extend(after_trans)
+            untransformed.extend(still_untrans)
+        ranges_to_trans = untransformed[:]
+    new_ranges.extend(ranges_to_trans)
+    return new_ranges[:]
+
+
+def transform_range(range1, rule_in, rule_out):
     new_ranges = []
     remaining_ranges = []
 
@@ -35,6 +48,7 @@ with open('day5_inputfile.txt') as file:
     my_input = file.read().split('\n\n')
 
 for transformation in my_input:
+    # Setting up a dictionary where the keys are the source ranges, and the values are the destination ranges.
     trans_rules = {}
     trans_info = transformation.split('\n')[1:]
     for row in trans_info:
@@ -42,15 +56,6 @@ for transformation in my_input:
         trans_rules[(int(rule[1]), int(rule[1]) + int(rule[2]) - 1)] = (int(rule[0]), int(rule[0]) + int(rule[2]) - 1)
     print(f'trans_rules: {trans_rules}')
 
-    new_ranges = []
-    for rule_in, rule_out in trans_rules.items():
-        untransformed = []
-        for range1 in ranges_to_trans:
-            after_trans, still_untrans = transform(range1, rule_in, rule_out)
-            new_ranges.extend(after_trans)
-            untransformed.extend(still_untrans)
-        ranges_to_trans = untransformed[:]
-    new_ranges.extend(ranges_to_trans)
-    ranges_to_trans = new_ranges[:]
+    ranges_to_trans = apply_rules(trans_rules, ranges_to_trans)
 
 print(min([x[0] for x in ranges_to_trans]))
