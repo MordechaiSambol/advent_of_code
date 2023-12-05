@@ -65,7 +65,7 @@ for transformation in my_input:
     for row in trans_info:
         rule = row.split()
         trans_rules[(int(rule[1]), int(rule[1]) + int(rule[2]) - 1)] = (int(rule[0]), int(rule[0]) + int(rule[2]) - 1)
-    print(f'trans_rules: {trans_rules}')
+    # print(f'trans_rules: {trans_rules}')
 
     ranges_to_trans = apply_rules(trans_rules, ranges_to_trans)
 
