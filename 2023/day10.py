@@ -73,8 +73,8 @@ for pos in non_path_pos:  # Gotta be a good way to shorten this
     ):
         num_enclosed += 1
 
-    # TODO: Count in groups and not in singles. IF enclosed - all get added to enclosed. if not - first doesn't
-    #  get added to enclosed, the rest are removed from non_path_pos.
+# I tried going over the non_path_pos in groups and not in singles, but it ended up also taking a lot of time to run.
+# So I left it as it is - checking for each position separately if it's surrounded by the pipe or not.
 
 print(f'Solution part 2: {num_enclosed}')
 # print(clean_input)
